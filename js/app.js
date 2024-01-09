@@ -3,6 +3,7 @@ const movieName = document.querySelector('.movie-name');
 const movieDescription = document.querySelector('.movie-description');
 const movieRank = document.querySelector('.movie-rank');
 const getRandomMovieButton = document.querySelector('.find-movie');
+const language = 'language=pt-BR';
 
 fetch('js/API.txt')
     .then(Response => Response.text())
@@ -10,13 +11,13 @@ fetch('js/API.txt')
         var shift = 3;
         var data = decrypt('67fig3162d3984fh291ggi2g017fge32', shift);
         const API_KEY = data;
-        
+
         getRandomMovieButton.addEventListener('click', async () => {
             document.getElementById('movie-container').style.display = "flex";
         
             const randomId = Math.floor(Math.random() * 500)
         
-            const movie = await fetch(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${API_KEY}`)
+            const movie = await fetch(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${API_KEY}&${language}`)
             const movieData = await movie.json()
             
         
