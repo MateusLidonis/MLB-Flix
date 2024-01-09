@@ -15,7 +15,7 @@ fetch('js/API.txt')
         getRandomMovieButton.addEventListener('click', async () => {
             document.getElementById('movie-container').style.display = "flex";
         
-            const randomId = Math.floor(Math.random() * 500)
+            const randomId = Math.floor(Math.random() * 5000)
         
             const movie = await fetch(`https://api.themoviedb.org/3/movie/${randomId}?api_key=${API_KEY}&${language}`)
             const movieData = await movie.json()
