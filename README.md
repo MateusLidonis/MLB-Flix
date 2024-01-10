@@ -14,7 +14,7 @@ This project was built with the following technologies:
 - JavaScript
 - Git e Github
 - Figma
-- [themoviedb.org](themoviedb.org) API
+- [themoviedb.org API](https://developer.themoviedb.org/docs/getting-started)
 
 ## 💻 Project
 
