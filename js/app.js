@@ -4,10 +4,10 @@ const movieDescription = document.querySelector('.movie-description');
 const movieRank = document.querySelector('.movie-rank');
 const getRandomMovieButton = document.querySelector('.find-movie');
 const language = 'language=pt-BR';
-
+/*
 fetch('js/API.txt')
     .then(Response => Response.text())
-    .then(data => {
+    .then(data => {*/
         var shift = 3;
         var data = decrypt('67fig3162d3984fh291ggi2g017fge32', shift);
         const API_KEY = data;
@@ -26,7 +26,7 @@ fetch('js/API.txt')
             movieDescription.textContent = movieData.overview
             movieRank.textContent = movieData.vote_average
          })
-    })
+    //})
 
     function encrypt(text, shift) {
         var result = '';
