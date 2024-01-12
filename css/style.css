@@ -8,7 +8,7 @@
 
 body {
   background: linear-gradient(67deg, #1e46a3 0%, #000 48.94%, #c12a23 99.97%)
-    no-repeat;
+    no-repeat center center fixed;
   height: 100vh;
 }
 
@@ -16,11 +16,35 @@ body * {
   font-family: "Poppins", sans-serif;
 }
 
+#checkbox-container {
+  color: #fffcf9;
+  width: 100%;
+  max-width: 21.875rem;
+  margin: 0 auto;
+  padding-top: 3.125rem;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#checkbox-container div {
+  width: 50%;
+  padding-bottom: 0.313rem;
+}
+
+#checkbox-container input {
+  transform: scale(1.5);
+}
+
+#checkbox-container label {
+  padding-left: 0.625rem;
+}
+
 #titulo {
   width: 100%;
-  max-width: 533px;
+  max-width: 33.313rem;
   margin: 0 auto;
-  padding-top: 126px;
+  padding-top: 50px;
   text-align: center;
 }
 
@@ -34,26 +58,26 @@ body * {
   line-height: normal;
 }
 /*-------------------------------------------*/
-#movie-container {  
-  display: none;  
+#movie-container {
+  display: none;
   width: 100%;
-  max-width: 628px;  
+  max-width: 628px;
   margin: 30px auto 0;
 }
 /*-------------------------------------------*/
-#movie-img img {  
+#movie-img img {
   margin: 12.4px 34px 10px 0;
   width: 10.6875rem;
   height: 15.1875rem;
 }
 /*-------------------------------------------*/
 #movie-rank {
-  display: flex; 
+  display: flex;
   align-items: baseline;
 }
 
 #movie-rank p {
-  color: #FFFCF9;
+  color: #fffcf9;
   font-family: Poppins;
   font-size: 20px;
   font-style: normal;
@@ -63,7 +87,7 @@ body * {
 }
 
 #movie-rank span {
-  color: #FFFCF9;
+  color: #fffcf9;
   font-family: Poppins;
   font-size: 16px;
   font-style: normal;
@@ -72,13 +96,13 @@ body * {
   margin-left: 6px;
 }
 /*-------------------------------------------*/
-#movie-title-desc {  
+#movie-title-desc {
   width: 100%;
-  max-width: 628px;  
+  max-width: 628px;
 }
 
 #movie-title-desc h2 {
-  color: #FFFCF9;
+  color: #fffcf9;
   font-family: Poppins;
   font-size: 20px;
   font-style: normal;
@@ -88,7 +112,7 @@ body * {
 }
 
 #movie-title-desc p {
-  color: #FFFCF9;
+  color: #fffcf9;
   font-family: Poppins;
   font-size: 16px;
   font-style: normal;
@@ -97,7 +121,7 @@ body * {
 }
 /*-------------------------------------------*/
 #nome {
-  color: #FFFCF9;
+  color: #fffcf9;
   font-family: Poppins;
   font-size: 20px;
   font-style: normal;
@@ -106,15 +130,13 @@ body * {
 }
 
 #descricao {
-  color: #FFFCF9;
+  color: #fffcf9;
   font-family: Poppins;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
-
-
 
 #botao {
   width: 100%;
@@ -155,6 +177,7 @@ body * {
   width: 100%;
   max-width: 381px;
   margin: 26px auto 0;
+  padding-bottom: 3.125rem;
   color: #fffcf9;
   text-align: center;
   font-family: Poppins;
@@ -162,4 +185,30 @@ body * {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+
+@media (max-width: 625px) {
+  #movie-container {
+    flex-direction: column;
+  }
+  #movie-img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #movie-img img {
+    margin: auto;
+  }
+
+  #movie-title-desc {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #movie-title-desc p {
+    padding: 1.25rem;
+    text-align: center;
+  }
 }
