@@ -1,4 +1,4 @@
-<h1 align="center"> MLB Tree </h1>
+<h1 align="center">MLB Tree</h1>
 
 ---
 
