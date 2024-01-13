@@ -125,7 +125,7 @@ function getGenres() {
 // Função para buscar um filme com descrição
 async function fetchMovieWithDescription(randomId) {
   const movie = await fetch(
-    `https://api.themoviedb.org/3/movie/${randomId}?api_key=${API_KEY}`
+    `https://api.themoviedb.org/3/movie/${randomId}?api_key=${API_KEY}&${language}`
     /*`https://api.themoviedb.org/3/discover/movie/?api_key=${API_KEY}&with_genres=${checkedIds.join(
       ","
     )}&region=US`*/
