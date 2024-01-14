@@ -10,6 +10,7 @@ body {
   background: linear-gradient(67deg, #1e46a3 0%, #000 48.94%, #c12a23 99.97%)
     no-repeat center center fixed;
   height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
 body * {
