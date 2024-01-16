@@ -26,7 +26,7 @@ getRandomMovieButton.addEventListener("click", async () => {
     if (checkbox.checked) {
       checkedIds.push(checkbox.id);
     }
-    console.log(checkedIds);
+    //    console.log(checkedIds);
   });
 
   // Exibe o contêiner do filme e desativa o botão
@@ -35,8 +35,9 @@ getRandomMovieButton.addEventListener("click", async () => {
   getRandomMovieButton.style.pointerEvents = "none";
 
   // Busca um filme aleatório
-  const randomId = Math.floor(Math.random() * 500000);
-  const movieData = await fetchMovieWithDescription(randomId);
+  //const randomId = Math.floor(Math.random() * 500000);
+  //const movieData = await fetchMovieWithDescription(randomId);
+  const movieData = await fetchMoviesWithGenres(checkedIds);
 
   // Exibe as informações do filme
   moviePoster.src = `https://image.tmdb.org/t/p/w500${movieData.poster_path}`;
@@ -145,4 +146,16 @@ async function fetchMovieWithDescription(randomId) {
     const newRandomId = Math.floor(Math.random() * 500000);
     return fetchMovieWithDescription(newRandomId);
   }
+}
+
+async function fetchMoviesWithGenres(checkedIds) {
+  const movie = await fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&${language}&primary_release_year=2018&region=US&with_genres=${checkedIds}`
+  );
+  console.log(movie);
+  const movieData = await movie.json();
+  const RandomIndex = Math.floor(Math.random() * 20);
+  console.log(movieData.results[RandomIndex]);
+  let idForMovieWithGenre = movieData.results[RandomIndex].id;
+  return fetchMovieWithDescription(idForMovieWithGenre);
 }
