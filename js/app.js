@@ -4,7 +4,7 @@ const movieName = document.querySelector(".movie-name");
 const movieDescription = document.querySelector(".movie-description");
 const movieRank = document.querySelector(".movie-rank");
 const getRandomMovieButton = document.querySelector(".find-movie");
-const language = "language=pt-BR";
+const language = "language=en";
 /*
 const movieYear = document.getElementById("movie-year");
 const yearInput = movieYear.value;*/
@@ -17,8 +17,10 @@ const API_KEY = data;
 // Função para buscar todos os gêneros disponíveis
 getGenres();
 
+//------------------------------------------------------------------------------
 // Evento de clique para buscar um filme aleatório
 getRandomMovieButton.addEventListener("click", async () => {
+  console.log("------------------------------------------------------------");
   // Obtém os valores dos checkboxes marcados
   let checkboxes = document.querySelectorAll("input[type='checkbox']");
   let checkedIds = [];
@@ -26,9 +28,11 @@ getRandomMovieButton.addEventListener("click", async () => {
     if (checkbox.checked) {
       checkedIds.push(checkbox.id);
     }
-    //    console.log(checkedIds);
   });
 
+  const randomPage = await getPage(checkedIds);
+  console.log("checkedIds: " + checkedIds);
+  console.log("Random Page: " + randomPage);
   // Exibe o contêiner do filme e desativa o botão
   document.getElementById("movie-container").style.display = "flex";
   getRandomMovieButton.style.opacity = "0.8";
@@ -37,7 +41,16 @@ getRandomMovieButton.addEventListener("click", async () => {
   // Busca um filme aleatório
   //const randomId = Math.floor(Math.random() * 500000);
   //const movieData = await fetchMovieWithDescription(randomId);
-  const movieData = await fetchMoviesWithGenres(checkedIds);
+  const movieData = await fetchMoviesWithGenres(checkedIds, randomPage);
+  //const movieData = await getMovieProvider();
+
+  console.log("----------------O QUE VAI APARECER----------------");
+
+  console.log("Movie Data: " + movieData);
+  console.log("Poster Path: " + movieData.poster_path);
+  console.log("Title: " + movieData.title);
+  console.log("Overview: " + movieData.overview);
+  console.log("Nota: " + movieData.vote_average);
 
   // Exibe as informações do filme
   moviePoster.src = `https://image.tmdb.org/t/p/w500${movieData.poster_path}`;
@@ -49,7 +62,9 @@ getRandomMovieButton.addEventListener("click", async () => {
   getRandomMovieButton.style.opacity = "1";
   getRandomMovieButton.style.pointerEvents = "auto";
 });
+//------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------
 // Função para criptografar um texto
 function encrypt(text, shift) {
   var result = "";
@@ -78,7 +93,9 @@ function decrypt(text, shift) {
   // Chama a função encrypt com 26 - shift para descriptografar o texto
   return encrypt(text, 26 - shift);
 }
+//------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------
 function getGenres() {
   // Busca a lista de gêneros de filmes
   fetch(
@@ -122,7 +139,9 @@ function getGenres() {
 
   return null;
 }
+//------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------
 // Função para buscar um filme com descrição
 async function fetchMovieWithDescription(randomId) {
   const movie = await fetch(
@@ -131,8 +150,23 @@ async function fetchMovieWithDescription(randomId) {
       ","
     )}&region=US`*/
   );
+  console.log("----------------MOVIE WITH DESCRIPTION----------------");
+
   const movieData = await movie.json();
   // Verifica se o filme tem descrição
+  console.log(
+    "Descrição: " +
+      movieData.overview +
+      " / " +
+      "Poster: " +
+      movieData.poster_path +
+      " / " +
+      "Título: " +
+      movieData.title +
+      " / " +
+      "Nota: " +
+      movieData.vote_average
+  );
   if (
     movieData.overview &&
     movieData.poster_path &&
@@ -143,19 +177,137 @@ async function fetchMovieWithDescription(randomId) {
     return movieData;
   } else {
     // Se o filme não tem descrição, busca outro filme
-    const newRandomId = Math.floor(Math.random() * 500000);
-    return fetchMovieWithDescription(newRandomId);
+    /* const newRandomId = Math.floor(Math.random() * 500000);
+    return fetchMovieWithDescription(newRandomId);*/
+    return movieData;
   }
 }
+//------------------------------------------------------------------------------
 
-async function fetchMoviesWithGenres(checkedIds) {
+//------------------------------------------------------------------------------
+async function fetchMoviesWithGenres(checkedIds, randomPage) {
   const movie = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&${language}&primary_release_year=2018&region=US&with_genres=${checkedIds}`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&${language}&primary_release_year=2023&with_original_language=en&with_genres=${checkedIds}&page=${randomPage}`
   );
-  console.log(movie);
+  console.log("----------------MOVIES WITH GENRES----------------");
+
   const movieData = await movie.json();
-  const RandomIndex = Math.floor(Math.random() * 20);
+  const RandomIndex = Math.floor(Math.random() * movieData.results.length);
+  console.log("Resposta do fetchMoviesWithGenres com Ids e randomPage: ");
+  console.log(movie);
+  console.log("movieData: ");
+  console.log(movieData);
+  console.log("randomIndex: " + RandomIndex);
+  console.log("Filme aleatório baseado no index: ");
   console.log(movieData.results[RandomIndex]);
   let idForMovieWithGenre = movieData.results[RandomIndex].id;
+  getMovieProvider(idForMovieWithGenre);
   return fetchMovieWithDescription(idForMovieWithGenre);
 }
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+async function getPage(checkedIds) {
+  const movie = await fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&${language}&primary_release_year=2023&with_original_language=en&with_genres=${checkedIds}`
+  );
+  console.log("----------------GET PAGE----------------");
+
+  const movieData = await movie.json();
+  const totalPages = movieData.total_pages;
+  let randomPage = Math.floor(Math.random() * totalPages + 1);
+  console.log("RandomPage antes: " + randomPage);
+  while (randomPage > 500) {
+    randomPage = Math.floor(Math.random() * totalPages + 1);
+  }
+  console.log("Resposta do fetch para retornar página aleatória: ");
+  console.log(movie);
+  console.log("movieData: ");
+  console.log(movieData);
+  console.log("totalPages: " + totalPages);
+  console.log("randomPage: " + randomPage);
+  return randomPage;
+}
+
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+async function getMovieProvider(idForMovieWithGenre) {
+  const movie = await fetch(
+    /*`https://api.themoviedb.org/3/watch/providers/movie?api_key=${API_KEY}&language=en-US`*/
+    `https://api.themoviedb.org/3/movie/${idForMovieWithGenre}/watch/providers?api_key=${API_KEY}`
+  );
+  const movieData = await movie.json();
+  console.log("----------------PROVIDERS----------------");
+  console.log(movieData);
+  const indexBuy = movieData.results.BR.buy.length;
+  if (!indexBuy.ok) {
+    console.log("deu erro");
+  }
+  const indexRent = movieData.results.BR.rent.length;
+  if (!indexRent.ok) {
+    console.log("deu erro");
+  }
+  const indexFlatrate = movieData.results.BR.flatrate.length;
+  if (!indexFlatrate.ok) {
+    console.log("deu erro");
+  }
+
+  let countFlatrate = 0;
+  let countBuy = 0;
+  let countRent = 0;
+  //console.log(movieData.results.BR.flatrate[0].provider_name);
+  console.log("----------------STREAMING----------------");
+  for (count = 0; countFlatrate < indexFlatrate; countFlatrate++) {
+    console.log(
+      "Nome: " +
+        movieData.results.BR.flatrate[countFlatrate].provider_name +
+        " / " +
+        "Id: " +
+        movieData.results.BR.flatrate[countFlatrate].provider_id
+    );
+  }
+
+  console.log("----------------COMPRAR----------------");
+  for (count = 0; countBuy < indexBuy; countBuy++) {
+    console.log(
+      "Nome: " +
+        movieData.results.BR.buy[countBuy].provider_name +
+        " / " +
+        "Id: " +
+        movieData.results.BR.buy[countBuy].provider_id
+    );
+  }
+
+  console.log("----------------ALUGAR----------------");
+  for (count = 0; countRent < indexRent; countRent++) {
+    console.log(
+      "Nome: " +
+        movieData.results.BR.rent[countRent].provider_name +
+        " / " +
+        "Id: " +
+        movieData.results.BR.rent[countRent].provider_id
+    );
+  }
+
+  /*const index = movieData.results.length;
+  console.log("----------------PROVIDERS----------------");
+  console.log(movieData);
+  let count = 0;
+  for (count = 0; count < index; count++) {
+    console.log(
+      "Nome: " +
+        movieData.results[count].provider_name +
+        " / " +
+        "Id: " +
+        movieData.results[count].provider_id
+    );
+  }*/
+}
+/*
+&with_watch_providers=337&watch_region=BR
+337 = Disney Plus
+8 = Netflix
+619 = Star Plus
+*/
+//------------------------------------------------------------------------------
