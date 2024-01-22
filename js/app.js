@@ -240,17 +240,14 @@ async function getMovieProvider(idForMovieWithGenre) {
   const movieData = await movie.json();
   console.log("----------------PROVIDERS----------------");
   console.log(movieData);
-  const indexBuy = movieData.results.BR.buy.length;
-  if (!indexBuy.ok) {
-    console.log("deu erro");
-  }
-  const indexRent = movieData.results.BR.rent.length;
-  if (!indexRent.ok) {
-    console.log("deu erro");
-  }
-  const indexFlatrate = movieData.results.BR.flatrate.length;
-  if (!indexFlatrate.ok) {
-    console.log("deu erro");
+
+  const result = movieData.results.BR;
+  if (!result) {
+    console.log("Não existe");
+  } else {
+    var indexBuy = result.buy ? result.buy.length : 0;
+    var indexRent = result.rent ? result.rent.length : 0;
+    var indexFlatrate = result.flatrate ? result.flatrate.length : 0;
   }
 
   let countFlatrate = 0;
