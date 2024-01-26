@@ -38,6 +38,9 @@ getRandomMovieButton.addEventListener("click", async () => {
   getRandomMovieButton.style.opacity = "0.8";
   getRandomMovieButton.style.pointerEvents = "none";
 
+  const divProviders = document.getElementById("provider-img");
+  divProviders.innerHTML = "";
+
   // Busca um filme aleatório
   //const randomId = Math.floor(Math.random() * 500000);
   //const movieData = await fetchMovieWithDescription(randomId);
@@ -248,6 +251,9 @@ async function getMovieProvider(idForMovieWithGenre) {
     var indexBuy = result.buy ? result.buy.length : 0;
     var indexRent = result.rent ? result.rent.length : 0;
     var indexFlatrate = result.flatrate ? result.flatrate.length : 0;
+    insertProviders(result.flatrate, "Streaming");
+    insertProviders(result.rent, "Alugar");
+    insertProviders(result.buy, "Comprar");
   }
 
   let countFlatrate = 0;
@@ -308,3 +314,23 @@ async function getMovieProvider(idForMovieWithGenre) {
 619 = Star Plus
 */
 //------------------------------------------------------------------------------
+function insertProviders(providers, type) {
+  if (!providers) {
+    console.error("Nenhum provedor fornecido");
+    return;
+  }
+
+  const divProviders = document.getElementById("provider-img");
+
+  const text = document.createElement("p");
+  text.style.color = "white";
+  text.textContent = `${type}:`;
+  divProviders.appendChild(text);
+
+  providers.forEach((provider) => {
+    const img = document.createElement("img");
+    img.src = `https://image.tmdb.org/t/p/w200${provider.logo_path}`;
+    img.title = provider.provider_name;
+    divProviders.appendChild(img);
+  });
+}
