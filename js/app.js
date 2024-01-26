@@ -323,7 +323,7 @@ function insertProviders(providers, type) {
   const divProviders = document.getElementById("provider-img");
 
   const text = document.createElement("p");
-  text.style.color = "white";
+  text.style.color = "#fffcf9";
   text.textContent = `${type}:`;
   divProviders.appendChild(text);
 

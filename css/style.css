@@ -110,6 +110,7 @@ body * {
   font-weight: 700;
   line-height: normal;
   margin-bottom: 19.04px;
+  text-align: center;
 }
 
 #movie-title-desc p {
@@ -142,8 +143,8 @@ body * {
 #providers-container {
   display: flex;
   width: 100%;
-  max-width: 628px;
-  margin: 30px auto 0;
+  max-width: 100%;
+  padding: 1.25rem;
 }
 
 #provider-img img {
@@ -224,6 +225,17 @@ body * {
 
   #movie-title-desc p {
     padding: 1.25rem;
+    text-align: center;
+  }
+
+  #movie-title-desc h2 {
+    color: #fffcf9;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 19.04px;
     text-align: center;
   }
 }
