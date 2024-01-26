@@ -206,6 +206,7 @@ body * {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  padding: 0 5px 0 5px;
 }
 
 @media (max-width: 625px) {
