@@ -4,7 +4,7 @@ const movieName = document.querySelector(".movie-name");
 const movieDescription = document.querySelector(".movie-description");
 const movieRank = document.querySelector(".movie-rank");
 const getRandomMovieButton = document.querySelector(".find-movie");
-const language = "language=en";
+const language = "language=pt-BR";
 /*
 const movieYear = document.getElementById("movie-year");
 const yearInput = movieYear.value;*/
@@ -42,10 +42,8 @@ getRandomMovieButton.addEventListener("click", async () => {
   divProviders.innerHTML = "";
 
   // Busca um filme aleatório
-  //const randomId = Math.floor(Math.random() * 500000);
   //const movieData = await fetchMovieWithDescription(randomId);
   const movieData = await fetchMoviesWithGenres(checkedIds, randomPage);
-  //const movieData = await getMovieProvider();
 
   console.log("----------------O QUE VAI APARECER----------------");
 
@@ -190,7 +188,7 @@ async function fetchMovieWithDescription(randomId) {
 //------------------------------------------------------------------------------
 async function fetchMoviesWithGenres(checkedIds, randomPage) {
   const movie = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&${language}&primary_release_year=2023&with_original_language=en&with_genres=${checkedIds}&page=${randomPage}`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&${language}&with_genres=${checkedIds}&page=${randomPage}&sort_by=popularity.desc`
   );
   console.log("----------------MOVIES WITH GENRES----------------");
 
