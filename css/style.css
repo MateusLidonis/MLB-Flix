@@ -171,6 +171,7 @@ body * {
   align-items: center;
   justify-content: center;
   padding: 11px;
+  transition: all 0.5s;
 }
 
 #botao:hover {
