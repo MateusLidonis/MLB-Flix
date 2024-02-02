@@ -8,9 +8,28 @@ const getRandomMovieButton = document.querySelector(".find-movie");
 const divProviders = document.getElementById("provider-img");
 const language = "language=pt-BR";
 
+//document.getElementById("botao").addEventListener("mouseenter", moveButton);
+var button = document.getElementById("botao");
+var initialX = window.innerWidth / 2 - button.offsetWidth / 2;
+var initialY = window.innerHeight / 2 - button.offsetHeight / 10;
+
+var posicaoTop = button.offsetTop;
+var posicaoLeft = button.offsetLeft;
+
+console.log("Posição Top: " + posicaoTop + "px");
+console.log("Posição Left: " + posicaoLeft + "px");
+
+console.log("Inner Width: " + window.innerWidth);
+console.log("Inner Height: " + window.innerHeight);
+console.log("Button Width: " + button.offsetWidth);
+console.log("Button Height: " + button.offsetHeight);
+console.log("X: " + initialX);
+console.log("Y: " + initialY);
+// Definir posição inicial
+button.style.left = initialX + "px";
+button.style.top = initialY + "px";
 var move = 0;
 var anotherChance = 0;
-let button = document.getElementById("botao");
 //----------------------------------------------------------------------------------------------------------------------
 move = 0;
 //----------------------------------------------------------------------------------------------------------------------
@@ -24,31 +43,6 @@ const API_KEY = data;
 // Função para buscar todos os gêneros disponíveis ao iniciar a página
 getGenres();
 //----------------------------------------------------------------------------------------------------------------------
-button.addEventListener("mouseenter", (event) => {
-  if (move == 1) {
-    // Obtém as dimensões do botão e da janela
-    let buttonRect = button.getBoundingClientRect();
-    let windowRect = document.documentElement.getBoundingClientRect();
-
-    // Calcula uma posição aleatória que mantém o botão inteiramente dentro da janela
-    let randomX = Math.random() * (windowRect.width - buttonRect.width);
-    let randomY = Math.random() * (windowRect.height - buttonRect.height);
-
-    // Move o botão para a posição aleatória
-    button.style.left = randomX + "px";
-    button.style.top = randomY + "px";
-    anotherChance++;
-    if (anotherChance == 5) {
-      move = 0;
-      anotherChance = 0;
-      button.style.top = "60%";
-      button.style.left = "50%";
-      button.style.transform = "translate(-50%, -50%)";
-      alert("Você tem mais uma chance, que a sorte esteja sempre a seu favor!");
-    }
-    // move = 0;
-  }
-});
 //----------------------------------------------------------------------------------------------------------------------
 //Evento de clique para buscar um filme aleatório
 getRandomMovieButton.addEventListener("click", async () => {
@@ -66,23 +60,26 @@ getRandomMovieButton.addEventListener("click", async () => {
   console.log("checkedIds: " + checkedIds);
   //--------------------------------------------------------------------------------------------------------------------
   // Escolhe uma página aleatória de todas retornadas pela API
-  const randomPage = await getPage(checkedIds);
-  //--------------------------------------------------------------------------------------------------------------------
-  // Exibe o contêiner do filme e desativa o botão
-  document.getElementById("movie-container").style.display = "flex";
-  getRandomMovieButton.style.opacity = "0.8";
-  getRandomMovieButton.style.pointerEvents = "none";
+  if (move == 0) {
+    const randomPage = await getPage(checkedIds);
+    //--------------------------------------------------------------------------------------------------------------------
+    // Exibe o contêiner do filme e desativa o botão
+    document.getElementById("movie-container").style.display = "flex";
+    getRandomMovieButton.style.opacity = "0.8";
+    getRandomMovieButton.style.pointerEvents = "none";
 
-  const divProviders = document.getElementById("provider-img");
-  divProviders.innerHTML = "";
-  //--------------------------------------------------------------------------------------------------------------------
-  // Busca um filme aleatório
-  const movieData = await fetchMoviesWithGenres(checkedIds, randomPage);
-  //--------------------------------------------------------------------------------------------------------------------
-  // Reativa o botão
-  getRandomMovieButton.style.opacity = "1";
-  getRandomMovieButton.style.pointerEvents = "auto";
+    const divProviders = document.getElementById("provider-img");
+    divProviders.innerHTML = "";
+    //--------------------------------------------------------------------------------------------------------------------
+    // Busca um filme aleatório
+    const movieData = await fetchMoviesWithGenres(checkedIds, randomPage);
+    //--------------------------------------------------------------------------------------------------------------------
+    // Reativa o botão
+    getRandomMovieButton.style.opacity = "1";
+    getRandomMovieButton.style.pointerEvents = "auto";
+  }
 });
+
 //----------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -225,6 +222,17 @@ async function fetchMovieWithDescription(randomId) {
       "Que tal uma boa leitura? Ou então terminar aquele projeto que você deixou parado?";
     movieRank.textContent = "Mais de 8 mil!";
     move++;
+    if (window.screen.width <= 625) {
+      document.getElementById("botao").onclick = function () {
+        moveButton();
+      };
+    } else {
+      document.getElementById("botao").onmouseenter = function () {
+        if (move == 1) {
+          moveButton();
+        }
+      };
+    }
   }
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -344,3 +352,30 @@ function decrypt(text, shift) {
   return encrypt(text, 26 - shift);
 }
 //----------------------------------------------------------------------------------------------------------------------
+function moveButton() {
+  if (move == 1) {
+    var rect = button.getBoundingClientRect();
+    var x = Math.floor(Math.random() * (window.innerWidth - rect.width));
+    var y = Math.floor(Math.random() * (window.innerHeight - rect.height));
+    button.style.left = x + "px";
+    button.style.top = y + "px";
+    button.style.position = "absolute";
+
+    anotherChance++;
+    if (anotherChance == 5) {
+      move = 0;
+      anotherChance = 0;
+      alert("Você tem mais uma chance, que a sorte esteja sempre a seu favor!");
+      var initialX = window.innerWidth / 2 - button.offsetWidth / 2;
+
+      if (window.screen.width <= 625) {
+        var initialY = window.innerHeight / 2 + 280;
+      } else {
+        var initialY = window.innerHeight / 2 + 50;
+      }
+      // Definir posição inicial
+      button.style.left = initialX + "px";
+      button.style.top = initialY + "px";
+    }
+  }
+}
