@@ -63,7 +63,7 @@ body * {
   display: none;
   width: 100%;
   max-width: 628px;
-  margin: 30px auto 0;
+  margin: 130px auto 0;
 }
 /*-------------------------------------------*/
 #movie-img img {
@@ -172,6 +172,10 @@ body * {
   justify-content: center;
   padding: 11px;
   transition: all 0.5s;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #botao:hover {
@@ -193,21 +197,6 @@ body * {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-}
-
-#explicacao {
-  width: 100%;
-  max-width: 381px;
-  margin: 26px auto 0;
-  padding-bottom: 3.125rem;
-  color: #fffcf9;
-  text-align: center;
-  font-family: Poppins;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  padding: 0 5px 0 5px;
 }
 
 @media (max-width: 625px) {

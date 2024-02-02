@@ -1,10 +1,3 @@
-window.onload = adicionarEventoHover;
-
-function adicionarEventoHover() {
-  var botao = document.getElementById("botao");
-  botao.addEventListener("mouseenter", moveButton);
-}
-
 //----------------------------------------------------------------------------------------------------------------------
 // Seleciona elementos do DOM para exibir informações do filme
 const moviePoster = document.querySelector(".movie-poster");
@@ -14,6 +7,10 @@ const movieRank = document.querySelector(".movie-rank");
 const getRandomMovieButton = document.querySelector(".find-movie");
 const divProviders = document.getElementById("provider-img");
 const language = "language=pt-BR";
+
+var move = 0;
+var anotherChance = 0;
+let button = document.getElementById("botao");
 //----------------------------------------------------------------------------------------------------------------------
 move = 0;
 //----------------------------------------------------------------------------------------------------------------------
@@ -27,7 +24,31 @@ const API_KEY = data;
 // Função para buscar todos os gêneros disponíveis ao iniciar a página
 getGenres();
 //----------------------------------------------------------------------------------------------------------------------
+button.addEventListener("mouseenter", (event) => {
+  if (move == 1) {
+    // Obtém as dimensões do botão e da janela
+    let buttonRect = button.getBoundingClientRect();
+    let windowRect = document.documentElement.getBoundingClientRect();
 
+    // Calcula uma posição aleatória que mantém o botão inteiramente dentro da janela
+    let randomX = Math.random() * (windowRect.width - buttonRect.width);
+    let randomY = Math.random() * (windowRect.height - buttonRect.height);
+
+    // Move o botão para a posição aleatória
+    button.style.left = randomX + "px";
+    button.style.top = randomY + "px";
+    anotherChance++;
+    if (anotherChance == 5) {
+      move = 0;
+      anotherChance = 0;
+      button.style.top = "60%";
+      button.style.left = "50%";
+      button.style.transform = "translate(-50%, -50%)";
+      alert("Você tem mais uma chance, que a sorte esteja sempre a seu favor!");
+    }
+    // move = 0;
+  }
+});
 //----------------------------------------------------------------------------------------------------------------------
 //Evento de clique para buscar um filme aleatório
 getRandomMovieButton.addEventListener("click", async () => {
@@ -51,6 +72,9 @@ getRandomMovieButton.addEventListener("click", async () => {
   document.getElementById("movie-container").style.display = "flex";
   getRandomMovieButton.style.opacity = "0.8";
   getRandomMovieButton.style.pointerEvents = "none";
+
+  const divProviders = document.getElementById("provider-img");
+  divProviders.innerHTML = "";
   //--------------------------------------------------------------------------------------------------------------------
   // Busca um filme aleatório
   const movieData = await fetchMoviesWithGenres(checkedIds, randomPage);
@@ -200,6 +224,7 @@ async function fetchMovieWithDescription(randomId) {
     movieDescription.textContent =
       "Que tal uma boa leitura? Ou então terminar aquele projeto que você deixou parado?";
     movieRank.textContent = "Mais de 8 mil!";
+    move++;
   }
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -275,7 +300,6 @@ function insertProviders(providers, type) {
   }
 
   const divProviders = document.getElementById("provider-img");
-
   const text = document.createElement("p");
   text.style.color = "#fffcf9";
   text.textContent = `${type}:`;
@@ -320,12 +344,3 @@ function decrypt(text, shift) {
   return encrypt(text, 26 - shift);
 }
 //----------------------------------------------------------------------------------------------------------------------
-
-function moveButton() {
-  var rect = this.getBoundingClientRect();
-  var x = Math.floor(Math.random() * (window.innerWidth - rect.width));
-  var y = Math.floor(Math.random() * (window.innerHeight - rect.height));
-  this.style.left = x + "px";
-  this.style.top = y + "px";
-  this.style.position = "absolute";
-}
