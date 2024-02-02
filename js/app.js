@@ -10,24 +10,12 @@ const language = "language=pt-BR";
 
 //document.getElementById("botao").addEventListener("mouseenter", moveButton);
 var button = document.getElementById("botao");
-var initialX = window.innerWidth / 2 - button.offsetWidth / 2;
-var initialY = window.innerHeight / 2 - button.offsetHeight / 10;
+var container = document.getElementById("buttonContainer");
+var containerRect = container.getBoundingClientRect();
 
-var posicaoTop = button.offsetTop;
-var posicaoLeft = button.offsetLeft;
-
-console.log("Posição Top: " + posicaoTop + "px");
-console.log("Posição Left: " + posicaoLeft + "px");
-
-console.log("Inner Width: " + window.innerWidth);
-console.log("Inner Height: " + window.innerHeight);
-console.log("Button Width: " + button.offsetWidth);
-console.log("Button Height: " + button.offsetHeight);
-console.log("X: " + initialX);
-console.log("Y: " + initialY);
 // Definir posição inicial
-button.style.left = initialX + "px";
-button.style.top = initialY + "px";
+button.style.left = containerRect.width / 2 - button.offsetWidth / 2 + "px";
+button.style.top = containerRect.height / 2 - button.offsetHeight / 2 + "px";
 var move = 0;
 var anotherChance = 0;
 //----------------------------------------------------------------------------------------------------------------------
@@ -354,9 +342,14 @@ function decrypt(text, shift) {
 //----------------------------------------------------------------------------------------------------------------------
 function moveButton() {
   if (move == 1) {
-    var rect = button.getBoundingClientRect();
-    var x = Math.floor(Math.random() * (window.innerWidth - rect.width));
-    var y = Math.floor(Math.random() * (window.innerHeight - rect.height));
+    var container = document.getElementById("buttonContainer");
+
+    var x = Math.floor(
+      Math.random() * (container.clientWidth - button.offsetWidth)
+    );
+    var y = Math.floor(
+      Math.random() * (container.clientHeight - button.offsetHeight)
+    );
     button.style.left = x + "px";
     button.style.top = y + "px";
     button.style.position = "absolute";
@@ -366,16 +359,14 @@ function moveButton() {
       move = 0;
       anotherChance = 0;
       alert("Você tem mais uma chance, que a sorte esteja sempre a seu favor!");
-      var initialX = window.innerWidth / 2 - button.offsetWidth / 2;
+      var container = document.getElementById("buttonContainer");
+      var containerRect = container.getBoundingClientRect();
 
-      if (window.screen.width <= 625) {
-        var initialY = window.innerHeight / 2 + 280;
-      } else {
-        var initialY = window.innerHeight / 2 + 50;
-      }
       // Definir posição inicial
-      button.style.left = initialX + "px";
-      button.style.top = initialY + "px";
+      button.style.left =
+        containerRect.width / 2 - button.offsetWidth / 2 + "px";
+      button.style.top =
+        containerRect.height / 2 - button.offsetHeight / 2 + "px";
     }
   }
 }
