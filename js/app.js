@@ -31,41 +31,46 @@ const API_KEY = data;
 // Função para buscar todos os gêneros disponíveis ao iniciar a página
 getGenres();
 //----------------------------------------------------------------------------------------------------------------------
+button.addEventListener("mouseenter", function () {
+  moveButton();
+});
 //----------------------------------------------------------------------------------------------------------------------
 //Evento de clique para buscar um filme aleatório
 getRandomMovieButton.addEventListener("click", async () => {
   console.log("----------------BUTTON CLICK----------------");
-
-  //--------------------------------------------------------------------------------------------------------------------
-  // Obtém os valores dos checkboxes marcados
-  let checkboxes = document.querySelectorAll("input[type='checkbox']");
-  let checkedIds = [];
-  checkboxes.forEach((checkbox) => {
-    if (checkbox.checked) {
-      checkedIds.push(checkbox.id);
-    }
-  });
-  console.log("checkedIds: " + checkedIds);
-  //--------------------------------------------------------------------------------------------------------------------
-  // Escolhe uma página aleatória de todas retornadas pela API
   if (move == 0) {
-    const randomPage = await getPage(checkedIds);
     //--------------------------------------------------------------------------------------------------------------------
-    // Exibe o contêiner do filme e desativa o botão
-    document.getElementById("movie-container").style.display = "flex";
-    getRandomMovieButton.style.opacity = "0.8";
-    getRandomMovieButton.style.pointerEvents = "none";
+    // Obtém os valores dos checkboxes marcados
+    let checkboxes = document.querySelectorAll("input[type='checkbox']");
+    let checkedIds = [];
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        checkedIds.push(checkbox.id);
+      }
+    });
+    console.log("checkedIds: " + checkedIds);
+    //--------------------------------------------------------------------------------------------------------------------
+    // Escolhe uma página aleatória de todas retornadas pela API
+    if (move == 0) {
+      const randomPage = await getPage(checkedIds);
+      //--------------------------------------------------------------------------------------------------------------------
+      // Exibe o contêiner do filme e desativa o botão
+      document.getElementById("movie-container").style.display = "flex";
+      getRandomMovieButton.style.opacity = "0.8";
+      getRandomMovieButton.style.pointerEvents = "none";
 
-    const divProviders = document.getElementById("provider-img");
-    divProviders.innerHTML = "";
-    //--------------------------------------------------------------------------------------------------------------------
-    // Busca um filme aleatório
-    const movieData = await fetchMoviesWithGenres(checkedIds, randomPage);
-    //--------------------------------------------------------------------------------------------------------------------
-    // Reativa o botão
-    getRandomMovieButton.style.opacity = "1";
-    getRandomMovieButton.style.pointerEvents = "auto";
+      const divProviders = document.getElementById("provider-img");
+      divProviders.innerHTML = "";
+      //--------------------------------------------------------------------------------------------------------------------
+      // Busca um filme aleatório
+      const movieData = await fetchMoviesWithGenres(checkedIds, randomPage);
+      //--------------------------------------------------------------------------------------------------------------------
+      // Reativa o botão
+      getRandomMovieButton.style.opacity = "1";
+      getRandomMovieButton.style.pointerEvents = "auto";
+    }
   }
+  moveButton();
 });
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -210,7 +215,7 @@ async function fetchMovieWithDescription(randomId) {
       "Que tal uma boa leitura? Ou então terminar aquele projeto que você deixou parado?";
     movieRank.textContent = "Mais de 8 mil!";
     move++;
-    if (window.screen.width <= 625) {
+    /*if (window.screen.width <= 625) {
       document.getElementById("botao").onclick = function () {
         moveButton();
       };
@@ -220,7 +225,7 @@ async function fetchMovieWithDescription(randomId) {
           moveButton();
         }
       };
-    }
+    }*/
   }
 }
 //----------------------------------------------------------------------------------------------------------------------
