@@ -8,7 +8,6 @@ const getRandomMovieButton = document.querySelector(".find-movie");
 const divProviders = document.getElementById("provider-img");
 const language = "language=pt-BR";
 
-//document.getElementById("botao").addEventListener("mouseenter", moveButton);
 var button = document.getElementById("botao");
 var container = document.getElementById("buttonContainer");
 var containerRect = container.getBoundingClientRect();
@@ -215,17 +214,6 @@ async function fetchMovieWithDescription(randomId) {
       "Que tal uma boa leitura? Ou então terminar aquele projeto que você deixou parado?";
     movieRank.textContent = "Mais de 8 mil!";
     move++;
-    /*if (window.screen.width <= 625) {
-      document.getElementById("botao").onclick = function () {
-        moveButton();
-      };
-    } else {
-      document.getElementById("botao").onmouseenter = function () {
-        if (move == 1) {
-          moveButton();
-        }
-      };
-    }*/
   }
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -355,8 +343,7 @@ function moveButton() {
     var y = Math.floor(
       Math.random() * (container.clientHeight - button.offsetHeight)
     );
-    button.style.left = x + "px";
-    button.style.top = y + "px";
+
     button.style.position = "absolute";
 
     anotherChance++;
@@ -364,14 +351,24 @@ function moveButton() {
       move = 0;
       anotherChance = 0;
       alert("Você tem mais uma chance, que a sorte esteja sempre a seu favor!");
-      var container = document.getElementById("buttonContainer");
-      var containerRect = container.getBoundingClientRect();
 
-      // Definir posição inicial
-      button.style.left =
-        containerRect.width / 2 - button.offsetWidth / 2 + "px";
-      button.style.top =
-        containerRect.height / 2 - button.offsetHeight / 2 + "px";
+      // Faz o botão desaparecer lentamente
+      button.style.transition = "opacity 1s";
+      button.style.opacity = 0;
+
+      setTimeout(function () {
+        // Definir posição inicial
+        button.style.left =
+          containerRect.width / 2 - button.offsetWidth / 2 + "px";
+        button.style.top =
+          containerRect.height / 2 - button.offsetHeight / 2 + "px";
+
+        // Faz o botão aparecer lentamente
+        button.style.opacity = 1;
+      }, 1000);
+    } else {
+      button.style.left = x + "px";
+      button.style.top = y + "px";
     }
   }
 }
