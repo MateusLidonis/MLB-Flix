@@ -353,7 +353,7 @@ function moveButton() {
       alert("Você tem mais uma chance, que a sorte esteja sempre a seu favor!");
 
       // Faz o botão desaparecer lentamente
-      button.style.transition = "opacity 1s";
+      button.style.transition = "all 0.5s";
       button.style.opacity = 0;
 
       setTimeout(function () {
@@ -363,8 +363,11 @@ function moveButton() {
         button.style.top =
           containerRect.height / 2 - button.offsetHeight / 2 + "px";
 
-        // Faz o botão aparecer lentamente
-        button.style.opacity = 1;
+        // Faz o botão aparecer lentamente após ser reposicionado
+        setTimeout(function () {
+          button.style.transition = "all 0.5s";
+          button.style.opacity = 1;
+        }, 500); // Ajuste este tempo conforme necessário
       }, 1000);
     } else {
       button.style.left = x + "px";
